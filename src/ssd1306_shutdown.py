@@ -14,14 +14,15 @@ def find_process_id_by_name(process_name):
     for proc in psutil.process_iter():
         try:
             pinfo = proc.as_dict(attrs=['pid', 'name', 'cmdline'])
-            if process_name.lower() in ''.join(pinfo['cmdline']).lower():
+            # Check if the full command line contains the process_name
+            if process_name.lower() in ' '.join(pinfo['cmdline']).lower():
                 list_of_process_ids.append(pinfo['pid'])
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
     return list_of_process_ids
 
 def main():
-    pids = find_process_id_by_name('ssd1306_display')
+    pids = find_process_id_by_name('/usr/local/bin/ssd1306_display')
     if pids:
         pid = pids[0]
         try:
