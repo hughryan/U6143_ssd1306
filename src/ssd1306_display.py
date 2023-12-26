@@ -8,11 +8,12 @@ import numpy as np
 import time
 import subprocess
 import signal
+import psutil
 
 
 class Settings:
     font_path = "/usr/local/share/fonts/DroidSansMNerdFontMono-Regular.otf"
-    font_size = 9
+    font_size = 10
 
     screen_bottom: int
     screen_right: int
@@ -34,8 +35,8 @@ class Settings:
     image: Image
 
     def __init__(self):
-        # Time Jump to the next screen (or page) every 3 seconds
-        self.seconds_per_page = 3
+        # Time Jump to the next screen (or page) every 5 seconds
+        self.seconds_per_page = 5
 
         # Retrieve performance data from the system every 2 seconds
         self.refresh_data_interval = 2
@@ -168,9 +169,16 @@ class ChartPage(Page):
         super().display()
 
         metric = metrics[self.page_metrics[0]]
-        value_min = np.min(metric.chart_data)  # if metric.chart_low == -1 else metric.chart_low
-        value_max = np.max(metric.chart_data)  # if metric.chart_high == -1 else metric.chart_high
-        value_max += (value_max - value_min) * 0.1
+        value_min = 0  # For CPU and Memory, min is typically 0
+        if self.name == "CPU":
+            value_max = 100  # Assuming max CPU utilization is 100%
+        elif self.name == "Memory":
+            value_max = get_total_memory()
+        elif self.name == "Temp":
+            value_max = np.max(metric.chart_data) + (np.max(metric.chart_data) - value_min) * 0.1
+        else:
+            value_max = np.max(metric.chart_data) + (np.max(metric.chart_data) - value_min) * 0.1
+
 
         settings.draw.rectangle((settings.screen_left, settings.chart_top, settings.screen_right, settings.screen_bottom), outline=1, fill=0)
 
@@ -423,6 +431,9 @@ def get_text_dimensions(text_string, font):
     text_height = font.getmask(text_string).getbbox()[3] + descent
     return (text_width, text_height)
 
+def get_total_memory():
+    mem = psutil.virtual_memory()
+    return mem.total / (1024 * 1024)  # Convert bytes to megabytes
 
 if __name__ == "__main__":
     main()

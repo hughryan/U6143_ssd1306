@@ -1,0 +1,5 @@
+adafruit-circuitpython-ssd1306
+numpy
+RPi.GPIO
+Pillow
+psutil
