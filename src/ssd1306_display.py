@@ -169,8 +169,8 @@ class ChartPage(Page):
         super().display()
 
         metric = metrics[self.page_metrics[0]]
-        value_min = metric.chart_low if metric.chart_low != -1 else np.min(metric.chart_data)
-        value_max = metric.chart_high if metric.chart_high != -1 else np.max(metric.chart_data)
+        value_min = self.chart_low if self.chart_low != -1 else np.min(metric.chart_data)
+        value_max = self.chart_high if self.chart_high != -1 else np.max(metric.chart_data)
         value_max += (value_max - value_min) * 0.1
 
         settings.draw.rectangle((settings.screen_left, settings.chart_top, settings.screen_right, settings.screen_bottom), outline=1, fill=0)
