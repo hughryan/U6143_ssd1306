@@ -169,16 +169,14 @@ class ChartPage(Page):
         super().display()
 
         metric = metrics[self.page_metrics[0]]
-        value_min = 0  # For CPU and Memory, min is typically 0
-        if self.name == "CPU":
-            value_max = 100  # Assuming max CPU utilization is 100%
-        elif self.name == "Memory":
-            value_max = get_total_memory()
-        elif self.name == "Temp":
-            value_max = np.max(metric.chart_data) + (np.max(metric.chart_data) - value_min) * 0.1
+        if self.chart_low == -1:
+            value_min = np.min(metric.chart_data)
         else:
-            value_max = np.max(metric.chart_data) + (np.max(metric.chart_data) - value_min) * 0.1
-
+            value_min = self.chart_low
+        if self.chart_high == -1:
+            value_max = np.max(metric.chart_data)
+        else:
+            value_max = self.chart_high
 
         settings.draw.rectangle((settings.screen_left, settings.chart_top, settings.screen_right, settings.screen_bottom), outline=1, fill=0)
 
@@ -372,11 +370,15 @@ def define_pages():
 
         ChartPage(name="Temp",
                   chart_type=ChartType.LINE,
-                  metric_types=[MetricType.CPU_TEMP]),
+                  metric_types=[MetricType.CPU_TEMP],
+                  chart_low=70,
+                  chart_high=200),
 
         ChartPage(name="Memory",
                   chart_type=ChartType.BAR,
-                  metric_types=[MetricType.MEMORY])
+                  metric_types=[MetricType.MEMORY],
+                  chart_low=0,
+                  chart_high=get_total_memory())
     ]
 
     for pg in ret:
