@@ -179,8 +179,7 @@ class ChartPage(Page):
             last_row = -1
             col = settings.screen_right - 2
             for value in metric.chart_data:
-                row = settings.chart_top - (value - value_min) * (settings.chart_top - settings.chart_bottom) / (
-                        value_max - value_min)
+                row = settings.chart_bottom + (value - value_min) * (settings.chart_bottom - settings.chart_top) / (value_max - value_min)
                 settings.draw.line([col, row, col + 2, row if last_row == -1 else last_row], width=1, fill=1)
                 last_row = row
                 col -= 2
@@ -188,9 +187,7 @@ class ChartPage(Page):
         if self.chart_type == ChartType.BAR:
             col = settings.screen_right
             for value in metric.chart_data:
-                row = (settings.chart_top - (value - value_min) *
-                       (settings.chart_top - settings.chart_bottom) /
-                       (value_max - value_min))
+                row = settings.chart_bottom + (value - value_min) * (settings.chart_bottom - settings.chart_top) / (value_max - value_min)
                 settings.draw.line([col, row, col, settings.screen_bottom], width=1, fill=1)
                 col -= 2
 
