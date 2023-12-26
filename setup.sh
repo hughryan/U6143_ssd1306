@@ -87,4 +87,4 @@ systemctl enable ssd1306_display.service
 # Start the service
 systemctl start ssd1306_display.service
 
-echo "The SSD1306 LCD display service has been configured and started."
+echo "The SSD1306 display service has been configured and started."
