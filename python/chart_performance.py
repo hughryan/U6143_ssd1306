@@ -56,8 +56,8 @@ class Settings:
         self.draw = ImageDraw.Draw(self.image)
         self.font = ImageFont.load_default()
 
-        # Calculate text height using ImageDraw's textsize method
-        self.text_height = self.draw.textsize("MMMM", font=self.font)[1]
+        # Use get_text_dimensions to calculate text height
+        _, self.text_height = get_text_dimensions("MMMM", self.font)
         self.chart_top = self.text_height + 2
         self.chart_bottom = self.screen_bottom
         self.chart_max_values = int(
@@ -412,6 +412,13 @@ def main():
 settings = Settings
 metrics = {}
 pages = dict()
+
+def get_text_dimensions(text_string, font):
+    ascent, descent = font.getmetrics()
+    text_width = font.getmask(text_string).getbbox()[2]
+    text_height = font.getmask(text_string).getbbox()[3] + descent
+    return (text_width, text_height)
+
 
 if __name__ == "__main__":
     main()
