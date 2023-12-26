@@ -11,6 +11,9 @@ import signal
 
 
 class Settings:
+    font_path = "/usr/local/share/fonts/DroidSansMNerdFontMono-Regular.otf"
+    font_size = 9
+
     screen_bottom: int
     screen_right: int
     screen_left: int
@@ -54,7 +57,8 @@ class Settings:
 
         # Setup the drawing and font objects
         self.draw = ImageDraw.Draw(self.image)
-        self.font = ImageFont.load_default()
+
+        self.font = ImageFont.truetype(self.font_path, self.font_size)
 
         # Use get_text_dimensions to calculate text height
         _, self.text_height = get_text_dimensions("MMMM", self.font)
