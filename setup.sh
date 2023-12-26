@@ -85,6 +85,6 @@ systemctl daemon-reload
 systemctl enable ssd1306_display.service
 
 # Start the service
-systemctl start ssd1306_display.service
+systemctl restart ssd1306_display.service
 
 echo "The SSD1306 display service has been configured and started."
