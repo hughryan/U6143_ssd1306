@@ -56,7 +56,8 @@ class Settings:
         self.draw = ImageDraw.Draw(self.image)
         self.font = ImageFont.load_default()
 
-        self.text_height = self.draw.textsize("MMMM", self.font)[1]
+        # Calculate text height using ImageFont's getsize method
+        self.text_height = self.font.getsize("MMMM")[1]
         self.chart_top = self.text_height + 2
         self.chart_bottom = self.screen_bottom
         self.chart_max_values = int(
