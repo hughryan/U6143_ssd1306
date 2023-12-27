@@ -77,6 +77,7 @@ class ChartType(Enum):
 class MetricType(Enum):
     IP_ADDR = auto()
     HOSTNAME = auto()
+    UPTIME = auto()
     DISK = auto()
     CPU = auto()
     CPU_TEMP = auto()
@@ -328,6 +329,11 @@ def setup_metrics():
                 shell="hostname | cut -d' ' -f1 | awk '{printf \"%s\", $1}'",
                 fmt="HOST: {0}",
                 chartable=False),
+        MetricType.UPTIME:
+            Metric(
+                shell="uptime -p | awk '{sub(\"^up \", \"\"); printf \"%s\", $0}'",
+                fmt="Uptime: {0}",
+                chartable=False),
         MetricType.DISK:
             Metric(
                 shell='df -h | awk \'$NF=="/"{printf "%d,%d,%s",$3,$2,$5}\'',
@@ -351,7 +357,7 @@ def setup_metrics():
 def define_pages():
     ret = [
         TextPage(name="summary",
-                 metric_types=[MetricType.IP_ADDR, MetricType.HOSTNAME, MetricType.DISK]),
+                 metric_types=[MetricType.IP_ADDR, MetricType.HOSTNAME, MetricType.UPTIME]),
 
         MeterPage(name="TempMeter",
                   meter_low=0,
