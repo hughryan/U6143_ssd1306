@@ -331,8 +331,8 @@ def setup_metrics():
                 chartable=False),
         MetricType.UPTIME:
             Metric(
-                shell="uptime -p | awk '{sub(\"^up \", \"\"); printf \"%s\", $0}'",
-                fmt="Uptime: {0}",
+                shell="uptime -p | sed 's/^up //; s/ day, */d /; s/ days, */d /; s/ hour, */h /; s/ hours, */h /; s/ minute.*/m/; s/ minutes.*/m/'",
+                fmt="Up: {0}",
                 chartable=False),
         MetricType.DISK:
             Metric(
