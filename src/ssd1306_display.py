@@ -284,13 +284,13 @@ class MeterPage(Page):
         if self.meter_low >= self.meter_high:
             raise ValueError("\"{0}\" meter_low must be less than meter_high".format(self.name))
 
+
 def display_splash():
     settings.draw.rectangle((0, 0, settings.screen_right, settings.screen_bottom), outline=0, fill=0)
-    splash_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
+    splash_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
 
-    # Calculate text size
     text = "SKYNET"
-    text_width, text_height = settings.draw.textsize(text, font=splash_font)
+    text_width, text_height = get_text_dimensions(text, splash_font)
 
     # Calculate position for centered text
     x = (settings.screen_right - text_width) / 2
@@ -299,7 +299,6 @@ def display_splash():
     settings.draw.text((x, y), text, font=splash_font, fill=255)
     settings.disp.image(settings.image)
     settings.disp.show()
-
 
 
 def refresh_data():
