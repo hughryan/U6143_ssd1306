@@ -289,7 +289,7 @@ def display_splash():
     settings.draw.rectangle((0, 0, settings.screen_right, settings.screen_bottom), outline=0, fill=0)
     splash_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
 
-    settings.draw.text((0, 5), "UCTRONICS", font=splash_font, fill=255)
+    settings.draw.text((0, 5), "SKYNET", font=splash_font, fill=255)
     settings.disp.image(settings.image)
     settings.disp.show()
 
@@ -342,11 +342,8 @@ def setup_metrics():
 
 def define_pages():
     ret = [
-        TextPage(name="summary",  # This data on this page doesn't "chart" so well...
+        TextPage(name="summary",
                  metric_types=[MetricType.IP_ADDR, MetricType.HOSTNAME, MetricType.DISK]),
-
-        TextPage(name="summary2",  # This page is here primarily as an example
-                 metric_types=[MetricType.CPU, MetricType.CPU_TEMP, MetricType.MEMORY]),
 
         MeterPage(name="TempMeter",
                   meter_low=0,
@@ -354,29 +351,23 @@ def define_pages():
                   warning_value=185,
                   metric_types=[MetricType.CPU_TEMP]),
 
-        MeterPage(name="DiskMeter",
-                  meter_low=0,
-                  meter_high=118,
-                  num_meter_boxes=20,
-                  metric_types=[MetricType.DISK]),
-
         ChartPage(name="CPU",
-                  chart_type=ChartType.BAR,
+                  chart_type=ChartType.LINE,
                   metric_types=[MetricType.CPU],
                   chart_low=0,
                   chart_high=100),
-
-        ChartPage(name="Temp",
-                  chart_type=ChartType.LINE,
-                  metric_types=[MetricType.CPU_TEMP],
-                  chart_low=70,
-                  chart_high=200),
 
         ChartPage(name="Memory",
                   chart_type=ChartType.BAR,
                   metric_types=[MetricType.MEMORY],
                   chart_low=0,
-                  chart_high=get_total_memory())
+                  chart_high=get_total_memory()),
+
+        MeterPage(name="DiskMeter",
+                  meter_low=0,
+                  meter_high=118,
+                  num_meter_boxes=20,
+                  metric_types=[MetricType.DISK])
     ]
 
     for pg in ret:
@@ -403,9 +394,8 @@ def main():
     global pages
     pages = define_pages()
 
-    # Display and pause to allow the users to "bask in the beauty" of the splash screen
     display_splash()
-    time.sleep(2)
+    time.sleep(5)
 
     page_num = 0
     while True:
