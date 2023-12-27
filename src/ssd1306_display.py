@@ -101,7 +101,8 @@ class Metric:
 
     def text(self):
         split = (self.last_value + ",,,,,").split(',')
-        return self.fmt.format(split[0], split[1], split[2], split[3])
+        formatted_values = [split[i] if split[i] != '' else 'N/A' for i in range(4)]
+        return self.fmt.format(*formatted_values)
 
     def validate(self):
         return
@@ -342,7 +343,7 @@ def setup_metrics():
         MetricType.MEMORY:
             Metric(
                 shell="free -m | awk 'NR==2{printf \"%.1f,%.1f,%.1f\", $3/1024,$2/1024,$3*100/$2 }'",
-                fmt="M:{0}/{1}G ({2}%)")
+                fmt="M: {0}/{1}G ({2}%)")
     }
     return ret
 
@@ -401,21 +402,31 @@ def main():
     global pages
     pages = define_pages()
 
+    # Fetch initial data before displaying anything
+    refresh_data()
+
     display_splash()
-    time.sleep(5)
+    time.sleep(5)  # Adjust this duration if necessary
 
     page_num = 0
-    while True:
-        seconds = datetime.now().second
-        if seconds % settings.refresh_data_interval == 0:
-            refresh_data()
+    last_page_display_time = time.time()
+    last_data_refresh_time = time.time()
 
-        if seconds % settings.seconds_per_page == 0:
+    while True:
+        current_time = time.time()
+
+        # Refresh data every 2 seconds
+        if current_time - last_data_refresh_time >= settings.refresh_data_interval:
+            refresh_data()
+            last_data_refresh_time = current_time
+
+        # Change page every 5 seconds
+        if current_time - last_page_display_time >= settings.seconds_per_page:
             pages[page_num].display()
             page_num = (page_num + 1) % len(pages)
+            last_page_display_time = current_time
 
-        time.sleep(1)
-
+        time.sleep(0.1)  # Smaller sleep time for more responsive checks
 
 # Define a few globals that are used throughout the script
 settings = Settings
