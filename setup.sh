@@ -52,7 +52,7 @@ deactivate
 
 # Copy the font file to the system's fonts directory
 mkdir -p /usr/local/share/fonts/
-cp "$REPO_DIR/fonts/DroidSansMNerdFontMono-Regular.otf" /usr/local/share/fonts/
+cp "$REPO_DIR/fonts/"* /usr/local/share/fonts/
 fc-cache -fv
 
 # Copy the Python scripts to /usr/local/bin

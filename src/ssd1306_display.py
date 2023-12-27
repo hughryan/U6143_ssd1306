@@ -12,7 +12,7 @@ import psutil
 
 
 class Settings:
-    font_path = "/usr/local/share/fonts/DroidSansMNerdFontMono-Regular.otf"
+    font_path = "/usr/local/share/fonts/ProggyCleanSZNerdFontMono-Regular.ttf"
     font_size = 10
 
     screen_bottom: int
