@@ -284,14 +284,22 @@ class MeterPage(Page):
         if self.meter_low >= self.meter_high:
             raise ValueError("\"{0}\" meter_low must be less than meter_high".format(self.name))
 
-
 def display_splash():
     settings.draw.rectangle((0, 0, settings.screen_right, settings.screen_bottom), outline=0, fill=0)
-    splash_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
+    splash_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
 
-    settings.draw.text((0, 5), "SKYNET", font=splash_font, fill=255)
+    # Calculate text size
+    text = "SKYNET"
+    text_width, text_height = settings.draw.textsize(text, font=splash_font)
+
+    # Calculate position for centered text
+    x = (settings.screen_right - text_width) / 2
+    y = (settings.screen_bottom - text_height) / 2
+
+    settings.draw.text((x, y), text, font=splash_font, fill=255)
     settings.disp.image(settings.image)
     settings.disp.show()
+
 
 
 def refresh_data():
@@ -313,12 +321,12 @@ def setup_metrics():
         MetricType.IP_ADDR:
             Metric(
                 shell="hostname -I | cut -d' ' -f1 | awk '{printf \"%s\", $1}'",
-                fmt="IP Addr: {0}",
+                fmt="IP: {0}",
                 chartable=False),
         MetricType.HOSTNAME:
             Metric(
                 shell="hostname | cut -d' ' -f1 | awk '{printf \"%s\", $1}'",
-                fmt="Hostname: {0}",
+                fmt="Host: {0}",
                 chartable=False),
         MetricType.DISK:
             Metric(
@@ -327,11 +335,11 @@ def setup_metrics():
         MetricType.CPU:
             Metric(
                 shell="top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'",
-                fmt="CPU Util: {0}%"),
+                fmt="CPU: {0}%"),
         MetricType.CPU_TEMP:
             Metric(
                 shell="cat /sys/class/thermal/thermal_zone0/temp | awk {'printf \"%.2f\", $1/1000*1.8+32 }'",
-                fmt="CPU temp: {0}°"),
+                fmt="Temp: {0}°"),
         MetricType.MEMORY:
             Metric(
                 shell="free -m | awk 'NR==2{printf \"%s,%s,%.2f\", $3,$2,$3*100/$2 }'",
