@@ -72,7 +72,6 @@ After=network.target
 [Service]
 Type=simple
 ExecStart=$VENV_PATH/bin/python /usr/local/bin/ssd1306_display
-ExecStop=$VENV_PATH/bin/python /usr/local/bin/ssd1306_shutdown
 ExecStopPost=$VENV_PATH/bin/python /usr/local/bin/ssd1306_shutdown
 
 [Install]

@@ -13,7 +13,7 @@ import psutil
 
 class Settings:
     font_path = "/usr/local/share/fonts/ProggyCleanSZNerdFontMono-Regular.ttf"
-    font_size = 10
+    font_size = 16
 
     screen_bottom: int
     screen_right: int
@@ -325,12 +325,12 @@ def setup_metrics():
         MetricType.HOSTNAME:
             Metric(
                 shell="hostname | cut -d' ' -f1 | awk '{printf \"%s\", $1}'",
-                fmt="Host: {0}",
+                fmt="HOST: {0}",
                 chartable=False),
         MetricType.DISK:
             Metric(
                 shell='df -h | awk \'$NF=="/"{printf "%d,%d,%s",$3,$2,$5}\'',
-                fmt="Disk: {0}/{1}GB ({2})"),
+                fmt="DISK: {0}/{1}G ({2})"),
         MetricType.CPU:
             Metric(
                 shell="top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'",
@@ -338,11 +338,11 @@ def setup_metrics():
         MetricType.CPU_TEMP:
             Metric(
                 shell="cat /sys/class/thermal/thermal_zone0/temp | awk {'printf \"%.2f\", $1/1000*1.8+32 }'",
-                fmt="Temp: {0}°"),
+                fmt="TEMP: {0}°"),
         MetricType.MEMORY:
             Metric(
-                shell="free -m | awk 'NR==2{printf \"%s,%s,%.2f\", $3,$2,$3*100/$2 }'",
-                fmt="Mem: {0}/{1}MB ({2}%)")
+                shell="free -m | awk 'NR==2{printf \"%.1f,%.1f,%.1f\", $3/1024,$2/1024,$3*100/$2 }'",
+                fmt="M:{0}/{1}G ({2}%)")
     }
     return ret
 
