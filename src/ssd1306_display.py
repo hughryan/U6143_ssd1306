@@ -359,7 +359,7 @@ def define_pages():
         TextPage(name="summary",
                  metric_types=[MetricType.IP_ADDR, MetricType.HOSTNAME, MetricType.UPTIME]),
 
-        MeterPage(name="TempMeter",
+        MeterPage(name="Temp",
                   meter_low=0,
                   meter_high=200,
                   warning_value=185,
@@ -377,7 +377,7 @@ def define_pages():
                   chart_low=0,
                   chart_high=get_total_memory()),
 
-        MeterPage(name="DiskMeter",
+        MeterPage(name="Disk",
                   meter_low=0,
                   meter_high=118,
                   num_meter_boxes=20,
