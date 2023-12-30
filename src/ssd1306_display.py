@@ -332,7 +332,7 @@ def setup_metrics():
         MetricType.UPTIME:
             Metric(
                 shell="uptime -p | sed 's/^up //; s/ day, */d /; s/ days, */d /; s/ hour, */h /; s/ hours, */h /; s/ minute.*/m/; s/ minutes.*/m/'",
-                fmt="Up: {0}",
+                fmt="UP: {0}",
                 chartable=False),
         MetricType.DISK:
             Metric(
