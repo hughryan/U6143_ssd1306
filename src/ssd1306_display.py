@@ -408,6 +408,13 @@ def main():
     global pages
     pages = define_pages()
 
+    # Reset the display
+    settings.disp.poweroff()
+    time.sleep(1)
+    settings.disp.poweron()
+    settings.disp.fill(0)
+    settings.disp.show()
+
     # Fetch initial data before displaying anything
     refresh_data()
 
@@ -428,7 +435,12 @@ def main():
 
         # Change page every 5 seconds
         if current_time - last_page_display_time >= settings.seconds_per_page:
-            pages[page_num].display()
+            try:
+                pages[page_num].display()
+            except OSError as e:
+                print(f"I2C error: {e}. Resetting display...")
+                settings.disp.fill(0)
+                settings.disp.show()
             page_num = (page_num + 1) % len(pages)
             last_page_display_time = current_time
 
