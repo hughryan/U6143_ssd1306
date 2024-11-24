@@ -409,9 +409,6 @@ def main():
     pages = define_pages()
 
     # Reset the display
-    settings.disp.poweroff()
-    time.sleep(1)
-    settings.disp.poweron()
     settings.disp.fill(0)
     settings.disp.show()
 
@@ -453,8 +450,8 @@ pages = dict()
 
 def get_text_dimensions(text_string, font):
     ascent, descent = font.getmetrics()
-    text_width = font.getmask(text_string).getbbox()[2]
-    text_height = font.getmask(text_string).getbbox()[3] + descent
+    text_width = font.getsize(text_string)[0]
+    text_height = ascent + descent
     return (text_width, text_height)
 
 def get_total_memory():

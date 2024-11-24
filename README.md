@@ -14,6 +14,7 @@ git clone https://github.com/hughryan/U6143_ssd1306.git
 ```
 
 ## Install
+Ensure $REPO_DIR is set in the environment and then run:
 ```shell
 . ./setup.sh
 ```
