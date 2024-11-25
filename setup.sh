@@ -37,7 +37,7 @@ PYTHON_VERSION=$(python3 -V | cut -d " " -f 2 | cut -d "." -f 1,2)
 
 # Install Python development package for the current Python version
 sudo apt-get update
-sudo apt-get install -y --no-install-recommends "python${PYTHON_VERSION}-dev"
+sudo apt-get install -y --no-install-recommends "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv"
 
 # Create a Python virtual environment
 VENV_PATH="/usr/local/share/ssd1306_venv"
