@@ -12,8 +12,8 @@ import psutil
 
 
 class Settings:
-    font_path = "/usr/local/share/fonts/ProggyCleanSZNerdFontMono-Regular.ttf"
-    font_size = 14
+    font_path = "/usr/local/share/fonts/ProggyTinySZ.ttf"
+    font_size = 11
 
     screen_bottom: int
     screen_right: int
@@ -452,7 +452,7 @@ def get_text_dimensions(text_string, font):
     ascent, descent = font.getmetrics()
     (x0, y0, x1, y1) = font.getbbox(text_string)
     text_width = x1 - x0
-    line_gap = 2
+    line_gap = 1
     text_height = ascent + descent + line_gap
     return (text_width, text_height)
 
