@@ -13,7 +13,7 @@ import psutil
 
 class Settings:
     font_path = "/usr/local/share/fonts/ProggyTinySZ.ttf"
-    font_size = 11
+    font_size = 14
 
     screen_bottom: int
     screen_right: int
