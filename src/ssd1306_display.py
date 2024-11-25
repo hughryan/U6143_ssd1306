@@ -1,8 +1,8 @@
+from board import SCL, SDA
 from PIL import Image, ImageDraw, ImageFont
 from enum import Enum, auto
 from datetime import datetime
 import busio
-import board
 import adafruit_ssd1306
 import numpy as np
 import time
@@ -42,7 +42,7 @@ class Settings:
         self.refresh_data_interval = 2
 
         # Create the I2C interface, the SSD1406 OLED class, the image and untimely the draw object
-        i2c = busio.I2C(board.SCL, board.SDA, busnum=1)
+        i2c = busio.I2C(SCL, SDA)
         self.disp = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
         self.disp.fill(0)
         self.disp.show()
