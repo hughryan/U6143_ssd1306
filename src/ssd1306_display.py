@@ -13,7 +13,7 @@ import psutil
 
 class Settings:
     font_path = "/usr/local/share/fonts/ProggyCleanSZNerdFontMono-Regular.ttf"
-    font_size = 16
+    font_size = 14
 
     screen_bottom: int
     screen_right: int
@@ -62,7 +62,7 @@ class Settings:
         self.font = ImageFont.truetype(self.font_path, self.font_size)
 
         # Use get_text_dimensions to calculate text height
-        _, self.text_height = get_text_dimensions("MMMM", self.font)
+        _, self.text_height = get_text_dimensions("M", self.font)
         self.chart_top = self.text_height + 2
         self.chart_bottom = self.screen_bottom
         self.chart_max_values = int(
@@ -449,10 +449,11 @@ metrics = {}
 pages = dict()
 
 def get_text_dimensions(text_string, font):
-    # Get the bounding box of the text
-    x0, y0, x1, y1 = font.getbbox(text_string)
+    ascent, descent = font.getmetrics()
+    (x0, y0, x1, y1) = font.getbbox(text_string)
     text_width = x1 - x0
-    text_height = y1 - y0
+    line_gap = 2
+    text_height = ascent + descent + line_gap
     return (text_width, text_height)
 
 def get_total_memory():
