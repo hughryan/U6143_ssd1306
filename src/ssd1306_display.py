@@ -13,7 +13,7 @@ import psutil
 
 class Settings:
     font_path = "/usr/local/share/fonts/ProggyTinySZ.ttf"
-    font_size = 14
+    font_size = 16
 
     screen_bottom: int
     screen_right: int
@@ -49,9 +49,9 @@ class Settings:
 
         width = self.disp.width
         height = self.disp.height
-        self.screen_top = 0
+        self.screen_top = 1
         self.screen_bottom = height - 1
-        self.screen_left = 0
+        self.screen_left = 1
         self.screen_right = width - 1
 
         self.image = Image.new("1", (width, height))
@@ -63,7 +63,7 @@ class Settings:
 
         # Use get_text_dimensions to calculate text height
         _, self.text_height = get_text_dimensions("M", self.font)
-        self.chart_top = self.text_height + 2
+        self.chart_top = self.text_height + 1
         self.chart_bottom = self.screen_bottom
         self.chart_max_values = int(
             (width - 4) / 2)  # the 4 is for the margins, and it takes 2 pixels for each chart value
@@ -452,8 +452,7 @@ def get_text_dimensions(text_string, font):
     ascent, descent = font.getmetrics()
     (x0, y0, x1, y1) = font.getbbox(text_string)
     text_width = x1 - x0
-    line_gap = 1
-    text_height = ascent + descent + line_gap
+    text_height = ascent + descent
     return (text_width, text_height)
 
 def get_total_memory():
