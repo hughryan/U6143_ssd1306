@@ -449,9 +449,10 @@ metrics = {}
 pages = dict()
 
 def get_text_dimensions(text_string, font):
-    ascent, descent = font.getmetrics()
-    text_width = font.getsize(text_string)[0]
-    text_height = ascent + descent
+    # Get the bounding box of the text
+    x0, y0, x1, y1 = font.getbbox(text_string)
+    text_width = x1 - x0
+    text_height = y1 - y0
     return (text_width, text_height)
 
 def get_total_memory():
